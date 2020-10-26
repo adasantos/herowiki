@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 import BigHeart from '../../assets/big-heart.svg';
@@ -15,6 +16,9 @@ const Detail: React.FC = () => {
       </header>
       <div className="content">
         <div className="detail">
+          <div className="back">
+            <Link to="/">back</Link>
+          </div>
           <div className="detailHeader">
             <h1>Spiderman</h1>
             <img src={BigHeart} alt="Favorite" />

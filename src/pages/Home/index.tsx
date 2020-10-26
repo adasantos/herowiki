@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 import Hero from '../../assets/hero.svg';
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
         <p>Encontrados 20 heróis</p>
         <div className="sort">
           <img src={Hero} alt="Hero Icon" />
+
           <span>Ordenar por nome - A/Z</span>
           <input
             type="checkbox"
@@ -38,8 +40,12 @@ const Home: React.FC = () => {
 
       <div className="heroesList">
         <div className="heroesCard">
-          <img src={Spiderman} alt="Hero Name" />
-          <span>Spiderman</span>
+          <Link to="/detail">
+            <img src={Spiderman} alt="Hero Name" />
+          </Link>
+          <Link to="/detail">
+            <span>Spiderman</span>
+          </Link>
           <img src={EmptyHeart} alt="Add Favorite" />
         </div>
       </div>

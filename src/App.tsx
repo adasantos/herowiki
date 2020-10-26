@@ -1,10 +1,14 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import Home from './pages/Home';
-import Detail from './pages/Detail';
+import Routes from './routes';
 
 const App: React.FC = () => {
-  return <Detail />;
+  return (
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  );
 };
 
 export default App;
