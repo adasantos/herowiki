@@ -5,7 +5,7 @@ import Logo from '../../assets/logo.png';
 import Hero from '../../assets/hero.svg';
 import EmptyHeart from '../../assets/empty-heart.svg';
 import Heart from '../../assets/heart.svg';
-import Spiderman from '../../assets/spiderman.jpg';
+import SpidermanProfile from '../../assets/spiderman-profile.jpg';
 
 import './styles.css';
 
@@ -69,7 +69,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>
@@ -96,7 +96,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>
@@ -123,7 +123,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>
@@ -150,7 +150,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>
@@ -204,7 +204,7 @@ const Home: React.FC = () => {
             >
               <img
                 className="home__heroesImage"
-                src={Spiderman}
+                src={SpidermanProfile}
                 alt="Hero Name"
               />
             </div>

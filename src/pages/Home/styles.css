@@ -42,6 +42,8 @@
 
 .home__searchInput {
   width: 100%;
+  height: 40px;
+  border-radius: 20px;
 }
 
 .home__filterBar {
@@ -101,7 +103,6 @@
 }
 
 .home__heroesCard {
-  max-width: 200px;
   display: flex;
   flex-direction: column;
   margin-right: 16px;

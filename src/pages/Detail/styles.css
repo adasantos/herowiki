@@ -1,0 +1,218 @@
+
+.detail__header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr ;
+  align-items: center;
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 40px 20px 0 20px;
+}
+.detail__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1326px;
+  margin: 0 auto;
+  padding: 40px 20px 0 20px;
+}
+
+.detail__logo {
+  margin-right: 32px;
+}
+
+.detail__searchInput {
+  height: 40px;
+  border-radius: 20px;
+}
+
+.detail__content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 4fr ;
+}
+
+.detail__descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 32px 64px 32px 0;
+}
+
+.detail__back {
+  align-self: flex-start;
+  color: #FF1510;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+
+}
+
+.detail__nameContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.detail__name {
+  color: #404040;
+}
+
+
+.detail__description {
+  color: #8C8C8C;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.detail__products {
+  display: flex;
+  width: 250px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.detail__comicsInfo {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.detail__productsTitle{
+  color: #404040;
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+
+.detail__productsText {
+  color: #404040;
+  font-weight: 500;
+}
+
+.detail__productsImage {
+  margin-right: 8px;
+}
+
+.detail__comicsContainer {
+  display: flex;
+  align-items: center;
+
+}
+
+.detail__moviesInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.detail__moviesContainer {
+  display: flex;
+  align-items: center;
+}
+
+.detail__ratingContainer{
+  display: flex;
+  align-items: center;
+}
+
+.detail__ratingTitle {
+  color: #404040;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.detail__ratingImage{
+  margin-left: 16px;
+}
+
+.detail__latestContainer {
+  display:flex;
+  align-items: center;
+}
+
+.detail__latestTitle {
+  color: #404040;
+  font-weight: 700;
+  font-size: 12px;
+  margin-right: 16px;
+}
+
+.detail__latestDate {
+  color: #404040;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.detail__heroImageContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.detail__heroImage {
+    max-width: 500px;
+    height: 600px;
+}
+
+.detail__releases {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.detail__releasesTitle {
+  margin-bottom: 64px;
+}
+
+.detail__comicsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+}
+.detail__comicsCard{
+  max-width: 150px;
+  display:flex;
+  flex-direction: column;
+  margin-bottom:64px;
+  margin-right: 16px;
+}
+
+.detail__comicsCard:nth-child(6n+6) {
+  margin-right: 0;
+}
+
+.detail__comicsCardImage{
+  width: 100%;
+  height: 200px;
+  border-bottom: 3px solid #FF1510;
+  margin-bottom:16px;
+}
+
+.detail__comicsCardDescription{
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.detail__comicsCardName{
+  color: #404040;
+  font-weight: 700;
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.detail__footer {
+  width: 100%;
+  height: 64px;
+  background-color: #FF1510;
+
+  justify-self: flex-end;
+}
