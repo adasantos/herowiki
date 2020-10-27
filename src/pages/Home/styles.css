@@ -1,0 +1,146 @@
+.home__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 20px 0 20px;
+}
+
+.home__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.home__logo {
+  margin-bottom: 16px;
+}
+
+.home__title {
+  color: #404040;
+  margin-bottom: 8px;
+}
+
+.home__description {
+  color: #8C8C8C;
+  font-weight: 700;
+}
+
+.home__search {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 32px;
+}
+
+.home__searchInput {
+  width: 100%;
+}
+
+.home__filterBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.home__searchResult {
+  width: 100%;
+  color:#B9B9B9;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.home__filter {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.home__sort {
+  display: flex;
+  align-items: center;
+}
+
+.home__heroIcon {
+  margin-right: 8px;
+}
+
+.home__checkbox {
+  margin: 0 16px;
+}
+
+.home__favorite {
+  display:flex;
+  align-items: center;
+}
+
+.home__heartIcon {
+  margin-right: 8px;
+}
+
+.home__filterText {
+  color: #FF1510;
+  font-weight: 500;
+}
+
+.home__heroesList {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.home__heroesCard {
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+  margin-bottom: 32px;
+}
+
+.home__heroesCard:nth-child(4n+4) {
+  margin-right: 0;
+}
+
+
+.home__heroesImageContainer{
+  cursor: pointer;
+}
+
+.home__heroesImage {
+  width: 100%;
+  height: 200px;
+  border-bottom: 3px solid #FF1510;
+  margin-bottom:16px;
+}
+
+.home__heroesCardDetail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home__heroesName {
+  color: #404040;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.home__footer {
+  width: 100%;
+  height: 64px;
+  background-color: #FF1510;
+
+  justify-self: flex-end;
+
+}

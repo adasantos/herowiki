@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Logo from '../../assets/logo.svg';
+import Logo from '../../assets/logo.png';
 import BigHeart from '../../assets/big-heart.svg';
 import Book from '../../assets/book.svg';
 import Video from '../../assets/video.svg';
