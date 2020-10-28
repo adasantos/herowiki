@@ -1,20 +1,58 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import md5 from 'md5';
+
+import api from '../../service/api';
+import { publicKey, privateKey } from '../../settings/key';
 
 import Logo from '../../assets/logo.png';
 import Hero from '../../assets/hero.svg';
 import EmptyHeart from '../../assets/empty-heart.svg';
 import Heart from '../../assets/heart.svg';
-import SpidermanProfile from '../../assets/spiderman-profile.jpg';
 
 import './styles.css';
+
+interface DetailProps {
+  id: number;
+}
 
 const Home: React.FC = () => {
   const history = useHistory();
 
-  const handleClick = (): void => {
-    history.push('/detail');
-  };
+  const timestamp = Math.round(new Date().getTime() / 1000);
+
+  const hash = md5(`${timestamp}${privateKey}${publicKey}`);
+
+  const [heroes, setHeroes] = useState([]);
+  const [orderByName, setOrderByName] = useState(false);
+
+  const getHeroes = useCallback(async () => {
+    const response = await api.get(
+      `/v1/public/characters?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&orderBy=${
+        orderByName ? 'name' : 'modified'
+      }&limit=20`,
+    );
+
+    setHeroes(response.data.data.results);
+  }, [timestamp, hash, orderByName]);
+
+  useEffect(() => {
+    getHeroes();
+  }, [getHeroes, orderByName]);
+
+  const toggleOrderByName = useCallback((): void => {
+    setOrderByName(!orderByName);
+  }, [orderByName]);
+
+  const handleClickDetail = useCallback(
+    ({ id }: DetailProps) => {
+      history.push({
+        pathname: '/detail',
+        state: { id },
+      });
+    },
+    [history],
+  );
 
   return (
     <>
@@ -41,7 +79,15 @@ const Home: React.FC = () => {
             <div className="home__sort">
               <img className="home__heroIcon" src={Hero} alt="Hero Icon" />
 
-              <span className="home__filterText">Ordenar por nome - A/Z</span>
+              <span
+                className="home__filterText"
+                onClick={toggleOrderByName}
+                onKeyPress={toggleOrderByName}
+                role="link"
+                tabIndex={0}
+              >
+                Ordenar por nome - A/Z
+              </span>
 
               <input
                 type="checkbox"
@@ -59,168 +105,35 @@ const Home: React.FC = () => {
         </div>
 
         <div className="home__heroesList">
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
+          {heroes.map(({ id, name, thumbnail: { path, extension } }) => (
+            <div key={id} className="home__heroesCard">
+              <div
+                className="home__heroesImageContainer"
+                onClick={() => handleClickDetail(id)}
+                onKeyPress={() => handleClickDetail(id)}
                 role="link"
                 tabIndex={0}
               >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
+                <img
+                  className="home__heroesImage"
+                  src={`${path}.${extension}`}
+                  alt={name}
+                />
+              </div>
+              <div className="home__heroesCardDetail">
+                <span
+                  className="home__heroesName"
+                  onClick={() => handleClickDetail(id)}
+                  onKeyPress={() => handleClickDetail(id)}
+                  role="link"
+                  tabIndex={0}
+                >
+                  {name}
+                </span>
+                <img src={EmptyHeart} alt="Add Favorite" />
+              </div>
             </div>
-          </div>
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
-                role="link"
-                tabIndex={0}
-              >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
-            </div>
-          </div>
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
-                role="link"
-                tabIndex={0}
-              >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
-            </div>
-          </div>
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
-                role="link"
-                tabIndex={0}
-              >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
-            </div>
-          </div>
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
-                role="link"
-                tabIndex={0}
-              >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
-            </div>
-          </div>
-          <div className="home__heroesCard">
-            <div
-              className="home__heroesImageContainer"
-              onClick={handleClick}
-              onKeyPress={handleClick}
-              role="link"
-              tabIndex={0}
-            >
-              <img
-                className="home__heroesImage"
-                src={SpidermanProfile}
-                alt="Hero Name"
-              />
-            </div>
-            <div className="home__heroesCardDetail">
-              <span
-                className="home__heroesName"
-                onClick={handleClick}
-                onKeyPress={handleClick}
-                role="link"
-                tabIndex={0}
-              >
-                Spiderman
-              </span>
-              <img src={EmptyHeart} alt="Add Favorite" />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       <footer className="home__footer" />
