@@ -72,19 +72,18 @@
 .home__sort {
   display: flex;
   align-items: center;
+  cursor: pointer;
+  margin-right: 32px;
 }
 
 .home__heroIcon {
   margin-right: 8px;
 }
 
-.home__checkbox {
-  margin: 0 16px;
-}
-
 .home__favorite {
   display:flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .home__heartIcon {
