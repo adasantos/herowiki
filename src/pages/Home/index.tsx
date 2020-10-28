@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import md5 from 'md5';
 
@@ -46,12 +46,13 @@ const Home: React.FC = () => {
   const [favoriteHeroes, setFavoriteHeroes] = useState<FavoriteHeroProps[]>([]);
   const [orderByName, setOrderByName] = useState(false);
   const [onlyFavorite, setOnlyFavorite] = useState(false);
+  const [searchByName, setSearchByName] = useState('');
 
   const getHeroes = useCallback(async () => {
     const response = await api.get(
       `/v1/public/characters?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&orderBy=${
         orderByName ? 'name' : 'modified'
-      }&limit=20`,
+      }${searchByName && `&nameStartsWith=${searchByName}`}&limit=20`,
     );
 
     const newHeroes = response.data.data.results.map((hero: HeroProps) => {
@@ -75,7 +76,7 @@ const Home: React.FC = () => {
     });
 
     setHeroes(newHeroes);
-  }, [timestamp, hash, orderByName, favoriteHeroes]);
+  }, [timestamp, hash, orderByName, favoriteHeroes, searchByName]);
 
   useEffect(() => {
     getHeroes();
@@ -91,14 +92,16 @@ const Home: React.FC = () => {
 
   const addToFavorite = useCallback(
     (id, name, thumbnail) => {
-      const newFavoriteHero = {
-        id,
-        name,
-        thumbnail,
-        favorite: true,
-      };
+      if (favoriteHeroes.length < 5) {
+        const newFavoriteHero = {
+          id,
+          name,
+          thumbnail,
+          favorite: true,
+        };
 
-      setFavoriteHeroes([...favoriteHeroes, newFavoriteHero]);
+        setFavoriteHeroes([...favoriteHeroes, newFavoriteHero]);
+      }
     },
     [favoriteHeroes],
   );
@@ -113,6 +116,17 @@ const Home: React.FC = () => {
     },
     [favoriteHeroes],
   );
+
+  const handleSearchHeroByName = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      e.preventDefault();
+      const name = e.target.value;
+
+      setSearchByName(name);
+    },
+    [],
+  );
+
   const handleClickDetail = useCallback(
     ({ id }: DetailProps) => {
       history.push({
@@ -139,6 +153,7 @@ const Home: React.FC = () => {
             className="home__searchInput"
             type="text"
             placeholder="Procure por heróis"
+            onChange={handleSearchHeroByName}
           />
         </div>
         <div className="home__filterBar">
