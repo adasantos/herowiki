@@ -36,6 +36,7 @@
       "react/jsx-filename-extension": [1, { "extensions" : [".tsx"] }],
       "import/prefer-default-export": "off",
       "no-use-before-define": "off",
+      "react/jsx-curly-newline": "off",
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {

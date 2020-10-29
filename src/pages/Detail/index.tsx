@@ -73,10 +73,6 @@ const Detail: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="detail__ratingContainer">
-              <span className="detail__ratingTitle">Rating:</span>
-              <img className="detail__ratingImage" src={Rating} alt="rating" />
-            </div>
             <div className="detail__latestContainer">
               <span className="detail__latestTitle">Último quadrinho:</span>
               <span className="detail__latestDate">13 fev. 2020</span>
@@ -102,11 +98,6 @@ const Detail: React.FC = () => {
                 />
                 <div className="detail__comicsCardDescription">
                   <span className="detail__comicsCardName">{title}</span>
-                  <img
-                    className="detail__comicsCardfavorite"
-                    src={EmptyHeart}
-                    alt="Add Favorite"
-                  />
                 </div>
               </div>
             ))}

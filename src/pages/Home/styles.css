@@ -144,3 +144,34 @@
   justify-self: flex-end;
 
 }
+
+@media (max-width: 768px){
+  .home__heroesCard {
+    max-width: 350px;
+    display:flex;
+    justify-self: center;
+  }
+
+  .home__heroesImage{
+    max-width: 350px;
+    height: 300px;
+  }
+
+  .home__heroesList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr ;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home__filterBar {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .home__filter {
+    justify-content: flex-start;
+    margin-bottom: 16px;
+  }
+}
