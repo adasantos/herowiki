@@ -4,10 +4,6 @@ import md5 from 'md5';
 import api from '../service/api';
 import { publicKey, privateKey } from '../settings/key';
 
-interface getHeroDetailCredentials {
-  id: number;
-}
-
 interface HeroProps {
   id: number;
   name: string;
@@ -25,8 +21,12 @@ interface heroDetailProps {
     path: string;
     extension: string;
   };
-  comics: [];
-  series: [];
+  comics: {
+    available: number;
+  };
+  series: {
+    available: number;
+  };
 }
 
 interface heroComicProps {
@@ -36,14 +36,26 @@ interface heroComicProps {
     path: string;
     extension: string;
   };
+  dates: [
+    {
+      type: string;
+      date: string;
+    },
+  ];
 }
 
-interface heroComicTotalProps {
-  total: number;
+interface heroComicResultProps {
+  id: number;
+  title: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+  date: string;
 }
 
 interface HeroContextData {
-  getHeroDetail(id: getHeroDetailCredentials): Promise<void>;
+  getHeroDetail(id: number): Promise<void>;
   addToFavorite(
     id: number,
     name: string,
@@ -53,8 +65,7 @@ interface HeroContextData {
   setFavoriteHeroes: React.Dispatch<React.SetStateAction<HeroProps[]>>;
   favoriteHeroes: HeroProps[];
   heroDetail: heroDetailProps;
-  heroComics: heroComicProps[];
-  heroComicsTotal: heroComicTotalProps;
+  heroComics: heroComicResultProps[];
 }
 
 const HeroContext = createContext<HeroContextData>({} as HeroContextData);
@@ -67,11 +78,8 @@ export const HeroProvider: React.FC = ({ children }) => {
   const [heroDetail, setHeroDetail] = useState<heroDetailProps>(
     {} as heroDetailProps,
   );
-  const [heroComics, setHeroComics] = useState<heroComicProps[]>(
-    {} as heroComicProps[],
-  );
-  const [heroComicsTotal, setHeroComicsTotal] = useState<heroComicTotalProps>(
-    {} as heroComicTotalProps,
+  const [heroComics, setHeroComics] = useState<heroComicResultProps[]>(
+    {} as heroComicResultProps[],
   );
 
   const addToFavorite = useCallback(
@@ -119,16 +127,13 @@ export const HeroProvider: React.FC = ({ children }) => {
         `/v1/public/characters/${id}/comics?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&orderBy=-onsaleDate&limit=10`,
       );
 
-      if (response.data.data.total) {
-        setHeroComicsTotal(response.data.data.total);
-      }
-
       const newHeroComics = response.data.data.results.map(
         (comic: heroComicProps) => {
           return {
             id: comic.id,
             title: comic.title,
             thumbnail: comic.thumbnail,
+            date: comic.dates[0].date,
           };
         },
       );
@@ -139,24 +144,25 @@ export const HeroProvider: React.FC = ({ children }) => {
   );
 
   const getHeroDetail = useCallback(
-    async ({ id }) => {
+    async (id) => {
       const response = await api.get(
         `/v1/public/characters/${id}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}`,
       );
 
       const result = response.data.data.results[0];
+
       const newHeroDetail = {
         id: result.id,
         name: result.name,
         description: result.description,
         thumbnail: result.thumbnail,
-        comics: result.comics,
-        series: result.series,
+        comics: result.comics.available,
+        series: result.series.available,
       };
 
-      setHeroDetail(newHeroDetail);
-
       await getHeroComics(id);
+
+      setHeroDetail(newHeroDetail);
     },
     [hash, timestamp, getHeroComics],
   );
@@ -167,7 +173,6 @@ export const HeroProvider: React.FC = ({ children }) => {
         favoriteHeroes,
         heroDetail,
         heroComics,
-        heroComicsTotal,
         getHeroDetail,
         addToFavorite,
         removeToFavorite,

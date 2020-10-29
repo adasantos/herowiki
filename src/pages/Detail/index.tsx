@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
-import Input from '../../components/Input';
+import moment from 'moment';
 
 import { useHero } from '../../hooks/hero';
 
@@ -15,9 +14,8 @@ import './styles.css';
 
 const Detail: React.FC = () => {
   const {
-    heroDetail: { id, name, description, thumbnail },
+    heroDetail: { id, name, description, thumbnail, series, comics },
     heroComics,
-    heroComicsTotal,
     addToFavorite,
     removeToFavorite,
     favoriteHeroes,
@@ -25,6 +23,7 @@ const Detail: React.FC = () => {
   const history = useHistory();
 
   const handleClickBackButton = (): void => {
+    moment.locale('pt-br');
     history.push('/');
   };
 
@@ -32,9 +31,6 @@ const Detail: React.FC = () => {
     <>
       <header className="detail__header">
         <img className="detail__logo" src={Logo} alt="Marvel Search heroes" />
-        <div className="detail__search">
-          <Input name="search" type="text" placeholder="Procure por heróis" />
-        </div>
       </header>
       <div className="detail__container">
         <div
@@ -85,33 +81,33 @@ const Detail: React.FC = () => {
                     src={Book}
                     alt="Comics"
                   />
-                  <span className="detail__productsText">
-                    {heroComicsTotal}
-                  </span>
+                  <span className="detail__productsText">{comics}</span>
                 </div>
               </div>
               <div className="detail__moviesInfo">
-                <span className="detail__productsTitle">Filmes</span>
+                <span className="detail__productsTitle">Series</span>
                 <div className="detail__moviesContainer">
                   <img
                     className="detail__productsImage"
                     src={Video}
                     alt="Movies"
                   />
-                  <span className="detail__productsText">40</span>
+                  <span className="detail__productsText">{series}</span>
                 </div>
               </div>
             </div>
             <div className="detail__latestContainer">
               <span className="detail__latestTitle">Último quadrinho:</span>
-              <span className="detail__latestDate">13 fev. 2020</span>
+              <span className="detail__latestDate">
+                {moment(heroComics[0].date).format('DD MMM YYYY')}
+              </span>
             </div>
           </div>
           <div className="detail__heroImageContainer">
             <img
               className="detail__heroImage"
               src={`${thumbnail.path}.${thumbnail.extension}`}
-              alt="Spiderman"
+              alt={name}
             />
           </div>
         </div>
@@ -124,7 +120,7 @@ const Detail: React.FC = () => {
                   <img
                     className="detail__comicsCardImage"
                     src={`${path}.${extension}`}
-                    alt="Comic Name"
+                    alt={title}
                   />
                   <div className="detail__comicsCardDescription">
                     <span className="detail__comicsCardName">{title}</span>

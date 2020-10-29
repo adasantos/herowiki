@@ -16,10 +16,6 @@ import Heart from '../../assets/heart.svg';
 
 import './styles.css';
 
-interface DetailProps {
-  id: number;
-}
-
 interface HeroProps {
   id: number;
   name: string;
@@ -88,10 +84,10 @@ const Home: React.FC = () => {
   );
 
   const handleClickDetail = useCallback(
-    async ({ id }: DetailProps) => {
-      await getHeroDetail({
-        id,
-      });
+    async (id: number) => {
+      await getHeroDetail(id);
+
+      localStorage.setItem('@HeroWiki:heroDetail', JSON.stringify(id));
 
       history.push('/detail');
     },
@@ -159,8 +155,8 @@ const Home: React.FC = () => {
                   <div key={id} className="home__heroesCard">
                     <div
                       className="home__heroesImageContainer"
-                      onClick={() => handleClickDetail({ id })}
-                      onKeyPress={() => handleClickDetail({ id })}
+                      onClick={() => handleClickDetail(id)}
+                      onKeyPress={() => handleClickDetail(id)}
                       role="link"
                       tabIndex={0}
                     >
@@ -173,8 +169,8 @@ const Home: React.FC = () => {
                     <div className="home__heroesCardDetail">
                       <span
                         className="home__heroesName"
-                        onClick={() => handleClickDetail({ id })}
-                        onKeyPress={() => handleClickDetail({ id })}
+                        onClick={() => handleClickDetail(id)}
+                        onKeyPress={() => handleClickDetail(id)}
                         role="link"
                         tabIndex={0}
                       >
@@ -188,7 +184,11 @@ const Home: React.FC = () => {
                         role="button"
                         tabIndex={0}
                       >
-                        <img src={Heart} alt="Remove Favorite" />
+                        <img
+                          className="home__favoriteIcon"
+                          src={Heart}
+                          alt="Remove Favorite"
+                        />
                       </div>
                     </div>
                   </div>
@@ -199,8 +199,8 @@ const Home: React.FC = () => {
                   <div key={id} className="home__heroesCard">
                     <div
                       className="home__heroesImageContainer"
-                      onClick={() => handleClickDetail({ id })}
-                      onKeyPress={() => handleClickDetail({ id })}
+                      onClick={() => handleClickDetail(id)}
+                      onKeyPress={() => handleClickDetail(id)}
                       role="link"
                       tabIndex={0}
                     >
@@ -213,8 +213,8 @@ const Home: React.FC = () => {
                     <div className="home__heroesCardDetail">
                       <span
                         className="home__heroesName"
-                        onClick={() => handleClickDetail({ id })}
-                        onKeyPress={() => handleClickDetail({ id })}
+                        onClick={() => handleClickDetail(id)}
+                        onKeyPress={() => handleClickDetail(id)}
                         role="link"
                         tabIndex={0}
                       >
@@ -231,7 +231,11 @@ const Home: React.FC = () => {
                           role="button"
                           tabIndex={0}
                         >
-                          <img src={Heart} alt="Remove Favorite" />
+                          <img
+                            className="home__favoriteIcon"
+                            src={Heart}
+                            alt="Remove Favorite"
+                          />
                         </div>
                       ) : (
                         <div
@@ -241,7 +245,11 @@ const Home: React.FC = () => {
                           role="button"
                           tabIndex={0}
                         >
-                          <img src={EmptyHeart} alt="Add Favorite" />
+                          <img
+                            className="home__favoriteIcon"
+                            src={EmptyHeart}
+                            alt="Add Favorite"
+                          />
                         </div>
                       )}
                     </div>

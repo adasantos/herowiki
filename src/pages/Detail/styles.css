@@ -1,13 +1,14 @@
 
 .detail__header {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr ;
+  display: flex;
+  justify-content:center;
   align-items: center;
   max-width: 1366px;
   margin: 0 auto;
   padding: 40px 20px 0 20px;
 }
+
 .detail__container {
   display: flex;
   flex-direction: column;
@@ -22,11 +23,6 @@
 
 .detail__logo {
   margin-right: 32px;
-}
-
-.detail__searchInput {
-  height: 40px;
-  border-radius: 20px;
 }
 
 .detail__content {
