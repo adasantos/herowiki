@@ -1,18 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useHero } from '../../hooks/hero';
+
 import Logo from '../../assets/logo.png';
 import BigHeart from '../../assets/big-heart.svg';
 import Book from '../../assets/book.svg';
 import Video from '../../assets/video.svg';
 import Rating from '../../assets/rating.svg';
 import EmptyHeart from '../../assets/empty-heart.svg';
-import Spiderman from '../../assets/spiderman.png';
-import SpidermanComics from '../../assets/spiderman-comics.jpg';
 
 import './styles.css';
 
 const Detail: React.FC = () => {
+  const { heroDetail, heroComics, heroComicsTotal } = useHero();
   const history = useHistory();
 
   const handleClickBackButton = (): void => {
@@ -42,15 +43,10 @@ const Detail: React.FC = () => {
         <div className="detail__content">
           <div className="detail__descriptionContainer">
             <div className="detail__nameContainer">
-              <h1 className="detail__name">Spiderman</h1>
+              <h1 className="detail__name">{heroDetail.name}</h1>
               <img src={BigHeart} alt="Favorite" />
             </div>
-            <p className="detail__description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.{' '}
-            </p>
+            <p className="detail__description">{heroDetail.description}</p>
             <div className="detail__products">
               <div className="detail__comicsInfo">
                 <span className="detail__productsTitle">Quadrinhos</span>
@@ -60,7 +56,9 @@ const Detail: React.FC = () => {
                     src={Book}
                     alt="Comics"
                   />
-                  <span className="detail__productsText">3.000</span>
+                  <span className="detail__productsText">
+                    {heroComicsTotal}
+                  </span>
                 </div>
               </div>
               <div className="detail__moviesInfo">
@@ -87,7 +85,7 @@ const Detail: React.FC = () => {
           <div className="detail__heroImageContainer">
             <img
               className="detail__heroImage"
-              src={Spiderman}
+              src={`${heroDetail.thumbnail.path}.${heroDetail.thumbnail.extension}`}
               alt="Spiderman"
             />
           </div>
@@ -95,128 +93,23 @@ const Detail: React.FC = () => {
         <div className="detail__releases">
           <h1 className="detail__releasesTitle">Últimos lançamentos</h1>
           <div className="detail__comicsList">
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
+            {heroComics.map(({ id, title, thumbnail: { path, extension } }) => (
+              <div key={id} className="detail__comicsCard">
                 <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
+                  className="detail__comicsCardImage"
+                  src={`${path}.${extension}`}
+                  alt="Comic Name"
                 />
+                <div className="detail__comicsCardDescription">
+                  <span className="detail__comicsCardName">{title}</span>
+                  <img
+                    className="detail__comicsCardfavorite"
+                    src={EmptyHeart}
+                    alt="Add Favorite"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">
-                  Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-                </span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
-            <div className="detail__comicsCard">
-              <img
-                className="detail__comicsCardImage"
-                src={SpidermanComics}
-                alt="Comic Name"
-              />
-              <div className="detail__comicsCardDescription">
-                <span className="detail__comicsCardName">Lorem ipsum</span>
-                <img
-                  className="detail__comicsCardfavorite"
-                  src={EmptyHeart}
-                  alt="Add Favorite"
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

@@ -2,6 +2,8 @@ import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import md5 from 'md5';
 
+import { useHero } from '../../hooks/hero';
+
 import api from '../../service/api';
 import { publicKey, privateKey } from '../../settings/key';
 
@@ -36,10 +38,10 @@ interface FavoriteHeroProps {
 }
 
 const Home: React.FC = () => {
+  const { getHeroDetail } = useHero();
   const history = useHistory();
 
   const timestamp = Math.round(new Date().getTime() / 1000);
-
   const hash = md5(`${timestamp}${privateKey}${publicKey}`);
 
   const [heroes, setHeroes] = useState<FavoriteHeroProps[]>([]);
@@ -128,13 +130,14 @@ const Home: React.FC = () => {
   );
 
   const handleClickDetail = useCallback(
-    ({ id }: DetailProps) => {
-      history.push({
-        pathname: '/detail',
-        state: { id },
+    async ({ id }: DetailProps) => {
+      await getHeroDetail({
+        id,
       });
+
+      history.push('/detail');
     },
-    [history],
+    [history, getHeroDetail],
   );
 
   return (
