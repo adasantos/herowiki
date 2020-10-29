@@ -2,6 +2,8 @@ import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import md5 from 'md5';
 
+import Input from '../../components/Input';
+
 import { useHero } from '../../hooks/hero';
 
 import api from '../../service/api';
@@ -108,8 +110,8 @@ const Home: React.FC = () => {
           </p>
         </header>
         <div className="home__search">
-          <input
-            className="home__searchInput"
+          <Input
+            name="search"
             type="text"
             placeholder="Procure por heróis"
             onChange={handleSearchHeroByName}

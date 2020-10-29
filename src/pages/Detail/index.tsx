@@ -1,6 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Input from '../../components/Input';
+
 import { useHero } from '../../hooks/hero';
 
 import Logo from '../../assets/logo.png';
@@ -30,11 +32,9 @@ const Detail: React.FC = () => {
     <>
       <header className="detail__header">
         <img className="detail__logo" src={Logo} alt="Marvel Search heroes" />
-        <input
-          className="detail__searchInput"
-          type="text"
-          placeholder="Procure por heróis"
-        />
+        <div className="detail__search">
+          <Input name="search" type="text" placeholder="Procure por heróis" />
+        </div>
       </header>
       <div className="detail__container">
         <div
