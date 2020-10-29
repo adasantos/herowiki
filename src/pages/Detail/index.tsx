@@ -7,13 +7,19 @@ import Logo from '../../assets/logo.png';
 import BigHeart from '../../assets/big-heart.svg';
 import Book from '../../assets/book.svg';
 import Video from '../../assets/video.svg';
-import Rating from '../../assets/rating.svg';
-import EmptyHeart from '../../assets/empty-heart.svg';
+import BigEmptyHeart from '../../assets/big-empty-heart.svg';
 
 import './styles.css';
 
 const Detail: React.FC = () => {
-  const { heroDetail, heroComics, heroComicsTotal } = useHero();
+  const {
+    heroDetail: { id, name, description, thumbnail },
+    heroComics,
+    heroComicsTotal,
+    addToFavorite,
+    removeToFavorite,
+    favoriteHeroes,
+  } = useHero();
   const history = useHistory();
 
   const handleClickBackButton = (): void => {
@@ -43,10 +49,33 @@ const Detail: React.FC = () => {
         <div className="detail__content">
           <div className="detail__descriptionContainer">
             <div className="detail__nameContainer">
-              <h1 className="detail__name">{heroDetail.name}</h1>
-              <img src={BigHeart} alt="Favorite" />
+              <h1 className="detail__name">{name}</h1>
+              {favoriteHeroes.find((favoriteHero) => {
+                return favoriteHero.id === id;
+              }) ? (
+                <div
+                  className="detail__favoriteHero"
+                  onClick={() => removeToFavorite(id)}
+                  onKeyPress={() => removeToFavorite(id)}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <img src={BigHeart} alt="Remove Favorite" />
+                </div>
+              ) : (
+                <div
+                  className="detail__favoriteHero"
+                  onClick={() => addToFavorite(id, name, thumbnail)}
+                  onKeyPress={() => addToFavorite(id, name, thumbnail)}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <img src={BigEmptyHeart} alt="Add Favorite" />
+                </div>
+              )}
             </div>
-            <p className="detail__description">{heroDetail.description}</p>
+
+            <p className="detail__description">{description}</p>
             <div className="detail__products">
               <div className="detail__comicsInfo">
                 <span className="detail__productsTitle">Quadrinhos</span>
@@ -81,7 +110,7 @@ const Detail: React.FC = () => {
           <div className="detail__heroImageContainer">
             <img
               className="detail__heroImage"
-              src={`${heroDetail.thumbnail.path}.${heroDetail.thumbnail.extension}`}
+              src={`${thumbnail.path}.${thumbnail.extension}`}
               alt="Spiderman"
             />
           </div>
@@ -89,18 +118,20 @@ const Detail: React.FC = () => {
         <div className="detail__releases">
           <h1 className="detail__releasesTitle">Últimos lançamentos</h1>
           <div className="detail__comicsList">
-            {heroComics.map(({ id, title, thumbnail: { path, extension } }) => (
-              <div key={id} className="detail__comicsCard">
-                <img
-                  className="detail__comicsCardImage"
-                  src={`${path}.${extension}`}
-                  alt="Comic Name"
-                />
-                <div className="detail__comicsCardDescription">
-                  <span className="detail__comicsCardName">{title}</span>
+            {heroComics.map(
+              ({ id: comicId, title, thumbnail: { path, extension } }) => (
+                <div key={comicId} className="detail__comicsCard">
+                  <img
+                    className="detail__comicsCardImage"
+                    src={`${path}.${extension}`}
+                    alt="Comic Name"
+                  />
+                  <div className="detail__comicsCardDescription">
+                    <span className="detail__comicsCardName">{title}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
           </div>
         </div>
       </div>

@@ -8,6 +8,15 @@ interface getHeroDetailCredentials {
   id: number;
 }
 
+interface HeroProps {
+  id: number;
+  name: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+}
+
 interface heroDetailProps {
   id: number;
   name: string;
@@ -35,6 +44,14 @@ interface heroComicTotalProps {
 
 interface HeroContextData {
   getHeroDetail(id: getHeroDetailCredentials): Promise<void>;
+  addToFavorite(
+    id: number,
+    name: string,
+    thumbnails: { path: string; extension: string },
+  ): void;
+  removeToFavorite(id: number): void;
+  setFavoriteHeroes: React.Dispatch<React.SetStateAction<HeroProps[]>>;
+  favoriteHeroes: HeroProps[];
   heroDetail: heroDetailProps;
   heroComics: heroComicProps[];
   heroComicsTotal: heroComicTotalProps;
@@ -46,6 +63,7 @@ export const HeroProvider: React.FC = ({ children }) => {
   const timestamp = Math.round(new Date().getTime() / 1000);
   const hash = md5(`${timestamp}${privateKey}${publicKey}`);
 
+  const [favoriteHeroes, setFavoriteHeroes] = useState<HeroProps[]>([]);
   const [heroDetail, setHeroDetail] = useState<heroDetailProps>(
     {} as heroDetailProps,
   );
@@ -54,6 +72,45 @@ export const HeroProvider: React.FC = ({ children }) => {
   );
   const [heroComicsTotal, setHeroComicsTotal] = useState<heroComicTotalProps>(
     {} as heroComicTotalProps,
+  );
+
+  const addToFavorite = useCallback(
+    (id, name, thumbnail) => {
+      if (favoriteHeroes.length < 5) {
+        const newFavoriteHero = {
+          id,
+          name,
+          thumbnail,
+          favorite: true,
+        };
+
+        const newFavoriteHeroes = [...favoriteHeroes, newFavoriteHero];
+
+        localStorage.setItem(
+          '@HeroWiki:favorite',
+          JSON.stringify(newFavoriteHeroes),
+        );
+
+        setFavoriteHeroes(newFavoriteHeroes);
+      }
+    },
+    [favoriteHeroes],
+  );
+
+  const removeToFavorite = useCallback(
+    (id) => {
+      const newFavoriteHeroes = favoriteHeroes.filter((favoriteHero) => {
+        return favoriteHero.id !== id;
+      });
+
+      localStorage.setItem(
+        '@HeroWiki:favorite',
+        JSON.stringify(newFavoriteHeroes),
+      );
+
+      setFavoriteHeroes(newFavoriteHeroes);
+    },
+    [favoriteHeroes],
   );
 
   const getHeroComics = useCallback(
@@ -107,10 +164,14 @@ export const HeroProvider: React.FC = ({ children }) => {
   return (
     <HeroContext.Provider
       value={{
+        favoriteHeroes,
         heroDetail,
         heroComics,
         heroComicsTotal,
         getHeroDetail,
+        addToFavorite,
+        removeToFavorite,
+        setFavoriteHeroes,
       }}
     >
       {children}

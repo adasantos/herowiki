@@ -27,25 +27,20 @@ interface HeroProps {
   };
 }
 
-interface FavoriteHeroProps {
-  id: number;
-  name: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-  favorite: boolean;
-}
-
 const Home: React.FC = () => {
-  const { getHeroDetail } = useHero();
+  const {
+    getHeroDetail,
+    addToFavorite,
+    removeToFavorite,
+    setFavoriteHeroes,
+    favoriteHeroes,
+  } = useHero();
   const history = useHistory();
 
   const timestamp = Math.round(new Date().getTime() / 1000);
   const hash = md5(`${timestamp}${privateKey}${publicKey}`);
 
-  const [heroes, setHeroes] = useState<FavoriteHeroProps[]>([]);
-  const [favoriteHeroes, setFavoriteHeroes] = useState<FavoriteHeroProps[]>([]);
+  const [heroes, setHeroes] = useState<HeroProps[]>([]);
   const [orderByName, setOrderByName] = useState(false);
   const [onlyFavorite, setOnlyFavorite] = useState(false);
   const [searchByName, setSearchByName] = useState('');
@@ -57,32 +52,20 @@ const Home: React.FC = () => {
       }${searchByName && `&nameStartsWith=${searchByName}`}&limit=20`,
     );
 
-    const newHeroes = response.data.data.results.map((hero: HeroProps) => {
-      const newHero = favoriteHeroes.find((favoriteHero) => {
-        return favoriteHero.id === hero.id;
-      });
-
-      if (newHero) {
-        if (hero.id === newHero.id) {
-          return {
-            ...hero,
-            favorite: true,
-          };
-        }
-      }
-
-      return {
-        ...hero,
-        favorite: false,
-      };
-    });
+    const newHeroes = response.data.data.results;
 
     setHeroes(newHeroes);
-  }, [timestamp, hash, orderByName, favoriteHeroes, searchByName]);
+  }, [timestamp, hash, orderByName, searchByName]);
 
   useEffect(() => {
+    const localFavoriteHeroes = localStorage.getItem('@HeroWiki:favorite');
+
+    if (localFavoriteHeroes) {
+      setFavoriteHeroes(JSON.parse(localFavoriteHeroes));
+    }
+
     getHeroes();
-  }, [getHeroes, orderByName]);
+  }, [getHeroes, orderByName, setFavoriteHeroes]);
 
   const toggleOrderByName = useCallback((): void => {
     setOrderByName(!orderByName);
@@ -91,33 +74,6 @@ const Home: React.FC = () => {
   const toggleOnlyFavorite = useCallback((): void => {
     setOnlyFavorite(!onlyFavorite);
   }, [onlyFavorite]);
-
-  const addToFavorite = useCallback(
-    (id, name, thumbnail) => {
-      if (favoriteHeroes.length < 5) {
-        const newFavoriteHero = {
-          id,
-          name,
-          thumbnail,
-          favorite: true,
-        };
-
-        setFavoriteHeroes([...favoriteHeroes, newFavoriteHero]);
-      }
-    },
-    [favoriteHeroes],
-  );
-
-  const removeToFavorite = useCallback(
-    (id) => {
-      const newFavoriteHeroes = favoriteHeroes.filter((favoriteHero) => {
-        return favoriteHero.id !== id;
-      });
-
-      setFavoriteHeroes(newFavoriteHeroes);
-    },
-    [favoriteHeroes],
-  );
 
   const handleSearchHeroByName = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -197,13 +153,7 @@ const Home: React.FC = () => {
         <div className="home__heroesList">
           {onlyFavorite
             ? favoriteHeroes.map(
-                ({
-                  id,
-                  name,
-                  thumbnail,
-                  thumbnail: { path, extension },
-                  favorite,
-                }) => (
+                ({ id, name, thumbnail: { path, extension } }) => (
                   <div key={id} className="home__heroesCard">
                     <div
                       className="home__heroesImageContainer"
@@ -229,39 +179,21 @@ const Home: React.FC = () => {
                         {name}
                       </span>
 
-                      {favorite ? (
-                        <div
-                          className="home__favoriteHero"
-                          onClick={() => removeToFavorite(id)}
-                          onKeyPress={() => removeToFavorite(id)}
-                          role="button"
-                          tabIndex={0}
-                        >
-                          <img src={Heart} alt="Remove Favorite" />
-                        </div>
-                      ) : (
-                        <div
-                          className="home__favoriteHero"
-                          onClick={() => addToFavorite(id, name, thumbnail)}
-                          onKeyPress={() => addToFavorite(id, name, thumbnail)}
-                          role="button"
-                          tabIndex={0}
-                        >
-                          <img src={EmptyHeart} alt="Add Favorite" />
-                        </div>
-                      )}
+                      <div
+                        className="home__favoriteHero"
+                        onClick={() => removeToFavorite(id)}
+                        onKeyPress={() => removeToFavorite(id)}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        <img src={Heart} alt="Remove Favorite" />
+                      </div>
                     </div>
                   </div>
                 ),
               )
             : heroes.map(
-                ({
-                  id,
-                  name,
-                  thumbnail,
-                  thumbnail: { path, extension },
-                  favorite,
-                }) => (
+                ({ id, name, thumbnail, thumbnail: { path, extension } }) => (
                   <div key={id} className="home__heroesCard">
                     <div
                       className="home__heroesImageContainer"
@@ -287,7 +219,9 @@ const Home: React.FC = () => {
                         {name}
                       </span>
 
-                      {favorite ? (
+                      {favoriteHeroes.find((favoriteHero) => {
+                        return favoriteHero.id === id;
+                      }) ? (
                         <div
                           className="home__favoriteHero"
                           onClick={() => removeToFavorite(id)}
